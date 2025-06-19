@@ -8,6 +8,10 @@
     shortcut: 'Ctrl+Shift+M',
     disableDefault: false
   };
+  const DEBUG = typeof window !== 'undefined' && window.GM_DEBUG;
+  function debugLog(...args) {
+    if (DEBUG) console.log('[gmail-md]', ...args);
+  }
   const EMOJI_MAP = typeof window !== "undefined" && window.EMOJI_MAP ? window.EMOJI_MAP : {};
 
 
@@ -63,7 +67,9 @@
           }
         }
         const text = container.textContent;
+        debugLog('shortcut check', { key: e.key, text, idx });
         if (text.slice(idx - 5, idx) === '/note') {
+          debugLog('inserting callout');
           container.textContent = text.slice(0, idx - 5);
           sel.collapse(container, idx - 5);
           const html =
