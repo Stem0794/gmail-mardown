@@ -7,7 +7,15 @@ function saveOptions() {
     shortcut: document.getElementById('shortcut').value.trim(),
     disableDefault: document.getElementById('disableDefault').checked
   };
-  chrome.storage.sync.set(opts);
+  chrome.storage.sync.set(opts, () => {
+    const status = document.getElementById('status');
+    if (status) {
+      status.textContent = 'Options saved';
+      setTimeout(() => {
+        status.textContent = '';
+      }, 1500);
+    }
+  });
 }
 
 function restoreOptions() {
