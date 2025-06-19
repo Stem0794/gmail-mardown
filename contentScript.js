@@ -23,7 +23,7 @@
   };
 
   function getEditable() {
-    return document.querySelector('div[aria-label="Message Body"][contenteditable="true"], div[role="textbox"][contenteditable="true"]');
+    return document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
   }
 
   function replaceEmojis(text) {
@@ -145,7 +145,7 @@
 
   function observeSendButton(callback) {
     const observer = new MutationObserver(() => {
-      const btn = document.querySelector('div[aria-label^="Send"], button[data-qa="texty_send_button"], button[aria-label="Send now"]');
+      const btn = document.querySelector('div[aria-label^="Send"]');
       if (btn) {
         btn.addEventListener('click', () => callback(), true);
         observer.disconnect();

@@ -22,7 +22,7 @@
   }
 
   const interval = setInterval(() => {
-    const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"], div[role="textbox"][contenteditable="true"]');
+    const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
 
     if (emailBody && typeof marked?.parse === 'function') {
       clearInterval(interval);
