@@ -12,7 +12,7 @@ An options page allows you to configure automatic conversion on paste, parser se
 - Automatically convert text on paste or when sending the message.
 - Supports GitHub‑flavored Markdown and optional HTML sanitization.
 - Extensive emoji shortcode map with characters left intact when typed directly.
-- Slash commands `/note` and `/table` expand to useful templates.
+- Slash command `/note` inserts a callout block with editable text.
 - Choose between *clean*, *Notion-style*, or *email-friendly* themes.
 - Configure a custom keyboard shortcut or disable the default one.
 
@@ -32,7 +32,7 @@ An options page allows you to configure automatic conversion on paste, parser se
 - Emoji characters you type directly, like 👍, stay unchanged when converting.
 - Links written as `[text](url)` become plain `text (url)` links for readability.
 - Choose between *clean*, *Notion-style*, or *email-friendly* themes for rendered Markdown.
-- Typing `/note` or `/table` expands to a blockquote or table template.
+- Typing `/note` inserts a grey callout block to highlight important info.
 
 ## Development
 The conversion is performed using the [Marked](https://github.com/markedjs/marked) library which is bundled inside `injector.js`.

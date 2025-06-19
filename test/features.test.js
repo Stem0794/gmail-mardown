@@ -33,7 +33,7 @@ describe('Extension features', function() {
     assert.isTrue(body.classList.contains('md-theme-notion'));
   });
 
-  it('expands /note and /table snippets', function() {
+  it('inserts a callout block with /note', function() {
     const script = loadScript('<div aria-label="Message Body" contenteditable="true"></div>');
     const body = document.querySelector('div[aria-label="Message Body"]');
     body.textContent = 'hello /note';
@@ -44,15 +44,6 @@ describe('Extension features', function() {
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
     body.dispatchEvent(new window.KeyboardEvent('keydown', { key: ' ' }));
-    assert.equal(body.textContent, 'hello > ');
-
-    body.textContent = '/table';
-    const range2 = document.createRange();
-    range2.selectNodeContents(body);
-    range2.collapse(false);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range2);
-    body.dispatchEvent(new window.KeyboardEvent('keydown', { key: ' ' }));
-    assert.include(body.textContent, '| Header 1 | Header 2 |');
+    assert.include(body.innerHTML, 'md-callout');
   });
 });
