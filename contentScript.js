@@ -4,6 +4,7 @@
     autoConvert: false,
     gfm: true,
     sanitize: false,
+    theme: 'clean',
     shortcut: 'Ctrl+Shift+M',
     disableDefault: false
   };
@@ -29,8 +30,59 @@
     return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
   }
 
+  function applyTheme(theme) {
+    const id = 'md-theme-style';
+    let link = document.getElementById(id);
+    if (!link) {
+      link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = chrome.runtime.getURL('themes.css');
+      document.documentElement.appendChild(link);
+    }
+    const body = getEditable();
+    if (body) {
+      body.classList.remove('md-theme-clean', 'md-theme-notion', 'md-theme-email');
+      body.classList.add('md-theme-' + theme);
+    }
+  }
+
+  function observeShortcuts() {
+    function attachListener(body) {
+      body.addEventListener('keydown', (e) => {
+        if (e.key !== ' ' && e.key !== 'Enter') return;
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        if (!body.contains(range.startContainer) || range.startContainer.nodeType !== Node.TEXT_NODE) return;
+        const text = range.startContainer.textContent;
+        const idx = range.startOffset;
+        if (text.slice(idx - 5, idx) === '/note') {
+          range.startContainer.textContent = text.slice(0, idx - 5) + '> ';
+          sel.collapse(range.startContainer, idx - 3);
+          e.preventDefault();
+        } else if (text.slice(idx - 6, idx) === '/table') {
+          const tmpl = '| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |';
+          range.startContainer.textContent = text.slice(0, idx - 6) + tmpl;
+          sel.collapse(range.startContainer, idx - 6 + tmpl.length);
+          e.preventDefault();
+        }
+      });
+    }
+    const existing = getEditable();
+    if (existing) attachListener(existing);
+    const observer = new MutationObserver(() => {
+      const body = getEditable();
+      if (body) attachListener(body);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
   chrome.storage.sync.get(DEFAULTS, (opts) => {
-    const { convertOnPaste, autoConvert, shortcut } = opts;
+    const { convertOnPaste, autoConvert, shortcut, theme } = opts;
+
+    applyTheme(theme);
+    observeShortcuts();
 
     if (convertOnPaste) {
       observePaste((text) => convertMarkdown(opts, text));
@@ -115,6 +167,7 @@
 
   function convertMarkdown(opts, markdownText) {
     loadMarked(() => {
+      applyTheme(opts.theme);
       const emailBody = getEditable();
       if (!emailBody || typeof marked?.parse !== 'function') return;
       const selection = window.getSelection();
