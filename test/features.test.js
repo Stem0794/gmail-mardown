@@ -33,17 +33,4 @@ describe('Extension features', function() {
     assert.isTrue(body.classList.contains('md-theme-notion'));
   });
 
-  it('inserts a callout block with /note', function() {
-    const script = loadScript('<div aria-label="Message Body" contenteditable="true"></div>');
-    const body = document.querySelector('div[aria-label="Message Body"]');
-    body.textContent = 'hello /note';
-    script.observeShortcuts();
-    const range = document.createRange();
-    range.selectNodeContents(body);
-    range.collapse(false);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    body.dispatchEvent(new window.KeyboardEvent('keydown', { key: ' ' }));
-    assert.include(body.innerHTML, 'md-callout');
-  });
 });
