@@ -1,6 +1,7 @@
 function saveOptions() {
   const opts = {
     convertOnPaste: document.getElementById('convertOnPaste').checked,
+    autoConvert: document.getElementById('autoConvert').checked,
     gfm: document.getElementById('gfm').checked,
     sanitize: document.getElementById('sanitize').checked,
     shortcut: document.getElementById('shortcut').value.trim(),
@@ -12,12 +13,14 @@ function saveOptions() {
 function restoreOptions() {
   chrome.storage.sync.get({
     convertOnPaste: false,
+    autoConvert: false,
     gfm: true,
     sanitize: false,
     shortcut: 'Ctrl+Shift+M',
     disableDefault: false
   }, (items) => {
     document.getElementById('convertOnPaste').checked = items.convertOnPaste;
+    document.getElementById('autoConvert').checked = items.autoConvert;
     document.getElementById('gfm').checked = items.gfm;
     document.getElementById('sanitize').checked = items.sanitize;
     document.getElementById('shortcut').value = items.shortcut;
@@ -27,4 +30,3 @@ function restoreOptions() {
 
 document.getElementById('save').addEventListener('click', saveOptions);
 document.addEventListener('DOMContentLoaded', restoreOptions);
-

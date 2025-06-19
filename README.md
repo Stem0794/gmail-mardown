@@ -18,3 +18,12 @@ An options page allows you to configure automatic conversion on paste, parser se
 ## Development
 The conversion is performed using the [Marked](https://github.com/markedjs/marked) library which is bundled inside `injector.js`.
 
+## Packaging
+1. Ensure that all extension files are present and any build steps have been run.
+2. Compress the entire extension folder into a `.zip` archive. This is the package that will be uploaded.
+3. Sign in to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) and upload the zip file as a new item or update.
+4. Follow the Chrome Web Store instructions to submit the extension for review and publication.
+5. Update the `version` field in `manifest.json` before submitting a new release.
+
+![Gmail Markdown conversion example](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6XdvFUAAAAASUVORK5CYII=)
+

@@ -1,6 +1,7 @@
 (function() {
   const DEFAULTS = {
     convertOnPaste: false,
+    autoConvert: false,
     gfm: true,
     sanitize: false,
     shortcut: 'Ctrl+Shift+M',
@@ -12,6 +13,10 @@
 
     if (convertOnPaste) {
       observePaste((text) => convertMarkdown(opts, text));
+    const {autoConvert, shortcut} = opts;
+
+    if (autoConvert) {
+      observeSendButton(() => convertMarkdown(opts));
     }
 
     if (shortcut) {
@@ -51,6 +56,15 @@
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
+  function observeSendButton(callback) {
+    const observer = new MutationObserver(() => {
+      const btn = document.querySelector('div[aria-label^="Send"]');
+      if (btn) {
+        btn.addEventListener('click', () => callback(), true);
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, {childList: true, subtree: true});
   }
 
   function loadMarked(cb) {
@@ -65,6 +79,7 @@
   }
 
   function convertMarkdown(opts, markdownText) {
+  function convertMarkdown(opts) {
     loadMarked(() => {
       const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
       if (!emailBody || typeof marked?.parse !== 'function') return;
