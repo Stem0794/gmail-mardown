@@ -84,8 +84,9 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  chrome.storage.sync.get(DEFAULTS, (opts) => {
-    const { convertOnPaste, autoConvert, shortcut, theme } = opts;
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+    chrome.storage.sync.get(DEFAULTS, (opts) => {
+      const { convertOnPaste, autoConvert, shortcut, theme } = opts;
 
     applyTheme(theme);
     observeShortcuts();
@@ -106,7 +107,8 @@
         }
       });
     }
-  });
+    });
+  }
 
   function matchesShortcut(e, combo) {
     const parts = combo.toLowerCase().split('+');
@@ -208,5 +210,14 @@
       }
       emailBody.dispatchEvent(new Event('input', { bubbles: true }));
     });
+  }
+
+  if (typeof module !== 'undefined') {
+    module.exports = {
+      convertLinksToReadable,
+      matchesShortcut,
+      applyTheme,
+      observeShortcuts
+    };
   }
 })();
