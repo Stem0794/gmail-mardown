@@ -70,7 +70,6 @@
         const text = e.clipboardData.getData('text/plain');
         if (text) {
           e.preventDefault();
-          e.stopImmediatePropagation();
           callback(text);
         }
       }, true);
@@ -132,6 +131,7 @@
           range.deleteContents();
           range.insertNode(temp);
         }
+        emailBody.dispatchEvent(new Event('input', { bubbles: true }));
         return;
       }
 
@@ -144,6 +144,7 @@
         const html = marked.parse(replaceEmojis(emailBody.innerText), markedOpts);
         emailBody.innerHTML = html;
       }
+      emailBody.dispatchEvent(new Event('input', { bubbles: true }));
     });
   }
 })();
