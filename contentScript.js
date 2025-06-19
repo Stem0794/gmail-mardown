@@ -27,6 +27,9 @@
         }
       });
     }
+
+    // Initialize live preview overlay once compose window is available
+    initPreview();
   });
 
   function matchesShortcut(e, combo) {
@@ -108,8 +111,65 @@
         range.insertNode(tempContainer);
       } else {
         const html = marked.parse(emailBody.innerText, markedOpts);
-        emailBody.innerHTML = html;
+      emailBody.innerHTML = html;
       }
+    });
+  }
+
+  function initPreview() {
+    const observer = new MutationObserver(() => {
+      const body = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+      const toolbar = document.querySelector('div[aria-label="Formatting options"]');
+      if (body && toolbar) {
+        observer.disconnect();
+        createPreview(body, toolbar);
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  function createPreview(body, toolbar) {
+    if (document.getElementById('md-preview-overlay')) return;
+
+    const preview = document.createElement('div');
+    preview.id = 'md-preview-overlay';
+    Object.assign(preview.style, {
+      position: 'fixed',
+      right: '10px',
+      bottom: '10px',
+      background: '#fff',
+      border: '1px solid #ccc',
+      padding: '8px',
+      maxWidth: '400px',
+      maxHeight: '50%',
+      overflow: 'auto',
+      zIndex: '2147483647',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+      display: 'none'
+    });
+    document.body.appendChild(preview);
+
+    const btn = document.createElement('button');
+    btn.id = 'md-preview-toggle';
+    btn.textContent = 'Preview';
+    btn.style.marginLeft = '4px';
+    toolbar.appendChild(btn);
+
+    loadMarked(() => {
+      btn.addEventListener('click', () => {
+        if (preview.style.display === 'none') {
+          preview.style.display = 'block';
+          preview.innerHTML = marked.parse(body.innerText);
+        } else {
+          preview.style.display = 'none';
+        }
+      });
+
+      body.addEventListener('input', () => {
+        if (preview.style.display !== 'none') {
+          preview.innerHTML = marked.parse(body.innerText);
+        }
+      });
     });
   }
 })();
