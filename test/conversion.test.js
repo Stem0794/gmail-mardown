@@ -29,7 +29,6 @@ describe('Markdown conversion', function() {
     const html = marked.parse(replaceEmojis('Keep it 👍')).trim();
     assert.equal(html, '<p>Keep it 👍</p>');
   });
-
   it('emoji map is extensive', function() {
     assert.isAbove(Object.keys(EMOJI_MAP).length, 1000);
   });
