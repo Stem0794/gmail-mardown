@@ -4,6 +4,23 @@
   const MAX_ATTEMPTS = 50;
   let attempts = 0;
 
+  const EMOJI_MAP = {
+    smile: '😄',
+    grin: '😁',
+    wink: '😉',
+    cry: '😢',
+    laugh: '😆',
+    heart: '❤️',
+    rocket: '🚀',
+    tada: '🎉',
+    thumbsup: '👍',
+    thumbs_up: '👍'
+  };
+
+  function replaceEmojis(text) {
+    return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
+  }
+
   const interval = setInterval(() => {
     const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
 
@@ -18,7 +35,7 @@
           const selectedText = selection.toString();
           if (selectedText.trim()) {
             const tempContainer = document.createElement('div');
-            tempContainer.innerHTML = marked.parse(selectedText, { gfm: opts.gfm, sanitize: opts.sanitize });
+            tempContainer.innerHTML = marked.parse(replaceEmojis(selectedText), { gfm: opts.gfm, sanitize: opts.sanitize });
             range.deleteContents();
             while (tempContainer.firstChild) {
               range.insertNode(tempContainer.firstChild);
@@ -27,7 +44,7 @@
           }
         } else {
           const markdown = emailBody.innerText;
-          const html = marked.parse(markdown, { gfm: opts.gfm, sanitize: opts.sanitize });
+          const html = marked.parse(replaceEmojis(markdown), { gfm: opts.gfm, sanitize: opts.sanitize });
           emailBody.innerHTML = html;
         }
       });

@@ -8,6 +8,23 @@
     disableDefault: false
   };
 
+  const EMOJI_MAP = {
+    smile: '😄',
+    grin: '😁',
+    wink: '😉',
+    cry: '😢',
+    laugh: '😆',
+    heart: '❤️',
+    rocket: '🚀',
+    tada: '🎉',
+    thumbsup: '👍',
+    thumbs_up: '👍'
+  };
+
+  function replaceEmojis(text) {
+    return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
+  }
+
   chrome.storage.sync.get(DEFAULTS, (opts) => {
     const { convertOnPaste, autoConvert, shortcut } = opts;
 
@@ -44,16 +61,26 @@
   }
 
   function observePaste(callback) {
+    function attachListener(body) {
+      body.addEventListener('paste', (e) => {
+        const text = e.clipboardData.getData('text/plain');
+        if (text) {
+          e.preventDefault();
+          callback(text);
+        }
+      });
+    }
+
+    const existing = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+    if (existing) {
+      attachListener(existing);
+      return;
+    }
+
     const observer = new MutationObserver(() => {
       const body = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
       if (body) {
-        body.addEventListener('paste', (e) => {
-          const text = e.clipboardData.getData('text/plain');
-          if (text) {
-            e.preventDefault();
-            callback(text);
-          }
-        });
+        attachListener(body);
         observer.disconnect();
       }
     });
@@ -91,7 +118,7 @@
       const markedOpts = { gfm: opts.gfm, sanitize: opts.sanitize };
 
       if (markdownText !== undefined) {
-        const html = marked.parse(markdownText, markedOpts);
+        const html = marked.parse(replaceEmojis(markdownText), markedOpts);
         if (document.queryCommandSupported && document.queryCommandSupported('insertHTML')) {
           document.execCommand('insertHTML', false, html);
         } else if (range) {
@@ -105,11 +132,11 @@
 
       if (range && emailBody.contains(range.commonAncestorContainer) && selection.toString().trim()) {
         const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = marked.parse(selection.toString(), markedOpts);
+        tempContainer.innerHTML = marked.parse(replaceEmojis(selection.toString()), markedOpts);
         range.deleteContents();
         range.insertNode(tempContainer);
       } else {
-        const html = marked.parse(emailBody.innerText, markedOpts);
+        const html = marked.parse(replaceEmojis(emailBody.innerText), markedOpts);
         emailBody.innerHTML = html;
       }
     });
