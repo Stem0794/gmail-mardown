@@ -1,5 +1,6 @@
 (function() {
   const DEFAULTS = {
+    convertOnPaste: false,
     autoConvert: false,
     gfm: true,
     sanitize: false,
@@ -8,6 +9,10 @@
   };
 
   chrome.storage.sync.get(DEFAULTS, (opts) => {
+    const { convertOnPaste, shortcut } = opts;
+
+    if (convertOnPaste) {
+      observePaste((text) => convertMarkdown(opts, text));
     const {autoConvert, shortcut} = opts;
 
     if (autoConvert) {
@@ -36,6 +41,21 @@
            e.altKey === alt;
   }
 
+  function observePaste(callback) {
+    const observer = new MutationObserver(() => {
+      const body = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+      if (body) {
+        body.addEventListener('paste', (e) => {
+          const text = e.clipboardData.getData('text/plain');
+          if (text) {
+            e.preventDefault();
+            callback(text);
+          }
+        });
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   function observeSendButton(callback) {
     const observer = new MutationObserver(() => {
       const btn = document.querySelector('div[aria-label^="Send"]');
@@ -58,6 +78,7 @@
     document.documentElement.appendChild(script);
   }
 
+  function convertMarkdown(opts, markdownText) {
   function convertMarkdown(opts) {
     loadMarked(() => {
       const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
@@ -65,6 +86,20 @@
       const selection = window.getSelection();
       const range = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
       const markedOpts = { gfm: opts.gfm, sanitize: opts.sanitize };
+
+      if (markdownText !== undefined) {
+        const html = marked.parse(markdownText, markedOpts);
+        if (document.queryCommandSupported && document.queryCommandSupported('insertHTML')) {
+          document.execCommand('insertHTML', false, html);
+        } else if (range) {
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
+          range.deleteContents();
+          range.insertNode(temp);
+        }
+        return;
+      }
+
       if (range && emailBody.contains(range.commonAncestorContainer) && selection.toString().trim()) {
         const tempContainer = document.createElement('div');
         tempContainer.innerHTML = marked.parse(selection.toString(), markedOpts);
