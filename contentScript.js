@@ -66,9 +66,10 @@
         const text = e.clipboardData.getData('text/plain');
         if (text) {
           e.preventDefault();
+          e.stopImmediatePropagation();
           callback(text);
         }
-      });
+      }, true);
     }
 
     const existing = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
