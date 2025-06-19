@@ -13,7 +13,8 @@ An options page allows you to configure automatic conversion on paste, parser se
 ## Usage
 - Compose a new email in Gmail and write your message using Markdown syntax.
 - Right-click inside the message body and choose **Convert Markdown to Rich Text**, or press `Ctrl+Shift+M`.
-- The extension will convert the Markdown to HTML within the compose area.
+- Use **Convert HTML to Markdown** from the context menu (or `Ctrl+Shift+H`) to reverse the conversion.
+- The extension will convert the Markdown to HTML within the compose area or convert existing HTML back to Markdown when requested.
 
 ## Development
 The conversion is performed using the [Marked](https://github.com/markedjs/marked) library which is bundled inside `injector.js`.
