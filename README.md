@@ -28,4 +28,17 @@ The conversion is performed using the [Marked](https://github.com/markedjs/marke
 5. Update the `version` field in `manifest.json` before submitting a new release.
 
 ![Gmail/Slack Markdown conversion example](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6XdvFUAAAAASUVORK5CYII=)
+## Running Tests
+First install the development dependencies with:
+```bash
+npm install
+```
+This installs packages like `mocha` that are needed for the test suite.
+
+Run the tests using:
+```bash
+npm test
+```
+
+![Gmail Markdown conversion example](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6XdvFUAAAAASUVORK5CYII=)
 
