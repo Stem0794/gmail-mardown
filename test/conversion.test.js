@@ -5,7 +5,7 @@ const TurndownService = require('turndown');
 describe('Markdown conversion', function() {
   it('converts Markdown to HTML', function() {
     const html = marked.parse('# Hello').trim();
-    assert.equal(html, '<h1 id="hello">Hello</h1>');
+    assert.equal(html, '<h1>Hello</h1>');
   });
 
   it('converts HTML to Markdown', function() {
