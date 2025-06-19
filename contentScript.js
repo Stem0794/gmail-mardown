@@ -48,69 +48,13 @@
     }
   }
 
-  function observeShortcuts() {
-    function attachListener(body) {
-      body.addEventListener('keydown', (e) => {
-        if (e.key !== ' ' && e.key !== 'Enter') return;
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        if (!body.contains(range.startContainer)) return;
-        let container = range.startContainer;
-        let idx = range.startOffset;
-        if (container.nodeType !== Node.TEXT_NODE) {
-          if (container.lastChild && container.lastChild.nodeType === Node.TEXT_NODE) {
-            container = container.lastChild;
-            idx = container.textContent.length;
-          } else {
-            return;
-          }
-        }
-        const text = container.textContent;
-        debugLog('shortcut check', { key: e.key, text, idx });
-        if (text.slice(idx - 5, idx) === '/note') {
-          debugLog('inserting callout');
-          container.textContent = text.slice(0, idx - 5);
-          sel.collapse(container, idx - 5);
-          const html =
-            '<div class="md-callout" contenteditable="true" ' +
-            'style="background:#f2f2f2;padding:8px;border-radius:4px;">' +
-            'Important info</div>';
-          if (
-            document.queryCommandSupported &&
-            document.queryCommandSupported('insertHTML')
-          ) {
-            document.execCommand('insertHTML', false, html);
-          } else {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-            const node = temp.firstChild;
-            const r = sel.getRangeAt(0);
-            r.insertNode(node);
-            r.setStart(node, 0);
-            r.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(r);
-          }
-          e.preventDefault();
-        }
-      });
-    }
-    const existing = getEditable();
-    if (existing) attachListener(existing);
-    const observer = new MutationObserver(() => {
-      const body = getEditable();
-      if (body) attachListener(body);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
+  function observeShortcuts() {}
 
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
     chrome.storage.sync.get(DEFAULTS, (opts) => {
       const { convertOnPaste, autoConvert, shortcut, theme } = opts;
 
     applyTheme(theme);
-    observeShortcuts();
 
     if (convertOnPaste) {
       observePaste((text) => convertMarkdown(opts, text));
@@ -234,11 +178,10 @@
   }
 
   if (typeof module !== 'undefined') {
-    module.exports = {
-      convertLinksToReadable,
-      matchesShortcut,
-      applyTheme,
-      observeShortcuts
-    };
+      module.exports = {
+        convertLinksToReadable,
+        matchesShortcut,
+        applyTheme
+      };
   }
 })();
