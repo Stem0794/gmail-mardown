@@ -15,6 +15,13 @@ function saveOptions() {
         status.textContent = '';
       }, 1500);
     }
+    if (chrome.commands && chrome.commands.update) {
+      chrome.commands.update({ name: 'convert_markdown', shortcut: opts.shortcut }, () => {
+        if (chrome.runtime.lastError) {
+          console.warn('Failed to update command shortcut', chrome.runtime.lastError);
+        }
+      });
+    }
   });
 }
 

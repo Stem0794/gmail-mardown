@@ -2,7 +2,7 @@
 
 This extension allows you to write emails in Markdown when composing a message in Gmail and also supports writing Slack messages in Markdown. Convert the Markdown to rich text via the provided context menu item or with the keyboard shortcut `Ctrl+Shift+M`.
 
-An options page allows you to configure automatic conversion on paste, parser settings, emoji support, and a custom keyboard shortcut. The shortcut string recognizes `ctrl`, `shift`, `alt`, and `cmd`/`meta` tokens so macOS users can specify combinations like `cmd+shift+m`.
+An options page allows you to configure automatic conversion on paste, parser settings, emoji support, and a custom keyboard shortcut. The shortcut string recognizes `ctrl`, `shift`, `alt`, and `cmd`/`meta` tokens so macOS users can specify combinations like `cmd+shift+m`. When you save a new shortcut it is applied to the extension's command automatically, so there is no need to update it through the **Extension shortcuts** page.
 
 ## Installation
 1. Clone this repository.
