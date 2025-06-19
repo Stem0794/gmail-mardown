@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Markdown for Gmail",
+  "version": "1.0",
+  "description": "Write emails in Markdown and convert them to rich text via right-click or shortcut.",
+  "permissions": ["contextMenus", "scripting", "activeTab"],
+  "host_permissions": ["https://mail.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_icon": "icons/icon48.png",
+    "default_title": "Markdown for Gmail"
+  },
+  "commands": {
+    "convert_markdown": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+M"
+      },
+      "description": "Convert Markdown in email to rich text"
+    }
+  }
+}
