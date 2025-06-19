@@ -1,24 +1,24 @@
 {
   "manifest_version": 3,
-  "name": "Markdown for Gmail",
+  "name": "Markdown for Gmail and Slack",
   "version": "1.1",
-  "description": "Write emails in Markdown and convert them to rich text via right-click or shortcut.",
+  "description": "Write Gmail or Slack messages in Markdown and convert them to rich text via right-click or shortcut.",
   "permissions": ["contextMenus", "scripting", "activeTab", "storage"],
-  "host_permissions": ["https://mail.google.com/*"],
+  "host_permissions": ["https://mail.google.com/*", "https://*.slack.com/*"],
   "background": {
     "service_worker": "background.js"
   },
   "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["https://mail.google.com/*"],
+      "matches": ["https://mail.google.com/*", "https://*.slack.com/*"],
       "js": ["contentScript.js"],
       "run_at": "document_idle"
     }
   ],
   "action": {
     "default_icon": "icons/icon.png",
-    "default_title": "Markdown for Gmail"
+    "default_title": "Markdown for Gmail and Slack"
   },
   "commands": {
     "convert_markdown": {
@@ -37,7 +37,7 @@
   "web_accessible_resources": [
     {
       "resources": ["marked.min.js", "turndown.js"],
-      "matches": ["https://mail.google.com/*"]
+      "matches": ["https://mail.google.com/*", "https://*.slack.com/*"]
     }
   ]
 }

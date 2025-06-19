@@ -21,6 +21,10 @@
     thumbs_up: '👍'
   };
 
+  function getEditable() {
+    return document.querySelector('div[aria-label="Message Body"][contenteditable="true"], div[role="textbox"][contenteditable="true"]');
+  }
+
   function replaceEmojis(text) {
     return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
   }
@@ -72,14 +76,14 @@
       }, true);
     }
 
-    const existing = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+    const existing = getEditable();
     if (existing) {
       attachListener(existing);
       return;
     }
 
     const observer = new MutationObserver(() => {
-      const body = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+      const body = getEditable();
       if (body) {
         attachListener(body);
         observer.disconnect();
@@ -90,7 +94,7 @@
 
   function observeSendButton(callback) {
     const observer = new MutationObserver(() => {
-      const btn = document.querySelector('div[aria-label^="Send"]');
+      const btn = document.querySelector('div[aria-label^="Send"], button[data-qa="texty_send_button"], button[aria-label="Send now"]');
       if (btn) {
         btn.addEventListener('click', () => callback(), true);
         observer.disconnect();
@@ -112,7 +116,7 @@
 
   function convertMarkdown(opts, markdownText) {
     loadMarked(() => {
-      const emailBody = document.querySelector('div[aria-label="Message Body"][contenteditable="true"]');
+      const emailBody = getEditable();
       if (!emailBody || typeof marked?.parse !== 'function') return;
       const selection = window.getSelection();
       const range = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;

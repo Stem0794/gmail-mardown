@@ -1,6 +1,6 @@
-# Markdown for Gmail Chrome Extension
+# Markdown for Gmail and Slack Chrome Extension
 
-This extension allows you to write emails in Markdown when composing a message in Gmail. Convert the Markdown to rich text via the provided context menu item or with the keyboard shortcut `Ctrl+Shift+M`.
+This extension allows you to write emails in Markdown when composing a message in Gmail and also supports writing Slack messages in Markdown. Convert the Markdown to rich text via the provided context menu item or with the keyboard shortcut `Ctrl+Shift+M`.
 
 An options page allows you to configure automatic conversion on paste, parser settings, emoji support, and a custom keyboard shortcut. The shortcut string recognizes `ctrl`, `shift`, `alt`, and `cmd`/`meta` tokens so macOS users can specify combinations like `cmd+shift+m`.
 
@@ -11,10 +11,10 @@ An options page allows you to configure automatic conversion on paste, parser se
 4. Click **Load unpacked** and choose this folder.
 
 ## Usage
-- Compose a new email in Gmail and write your message using Markdown syntax.
-- Right-click inside the message body and choose **Convert Markdown to Rich Text**, or press `Ctrl+Shift+M`.
-- Use **Convert HTML to Markdown** from the context menu (or `Ctrl+Shift+H`) to reverse the conversion.
-- The extension will convert the Markdown to HTML within the compose area or convert existing HTML back to Markdown when requested.
+- Compose a new email in Gmail or a message in Slack and write it using Markdown syntax.
+- Right-click inside the editable area and choose **Convert Markdown to Rich Text**, or press `Ctrl+Shift+M`.
+- Use **Convert HTML to Markdown** from the context menu (or `Ctrl+Shift+H`) to reverse the conversion in Gmail.
+- The extension converts the Markdown to rich text within the compose area and can convert existing HTML back to Markdown when requested.
 - Emoji shortcodes like `:smile:` are automatically converted to their corresponding characters.
 
 ## Development
@@ -27,5 +27,5 @@ The conversion is performed using the [Marked](https://github.com/markedjs/marke
 4. Follow the Chrome Web Store instructions to submit the extension for review and publication.
 5. Update the `version` field in `manifest.json` before submitting a new release.
 
-![Gmail Markdown conversion example](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6XdvFUAAAAASUVORK5CYII=)
+![Gmail/Slack Markdown conversion example](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6XdvFUAAAAASUVORK5CYII=)
 
