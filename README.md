@@ -37,6 +37,9 @@ An options page allows you to configure automatic conversion on paste, parser se
 ## Development
 The conversion is performed using the [Marked](https://github.com/markedjs/marked) library which is bundled inside `injector.js`.
 
+For troubleshooting features like the `/note` slash command, you can enable verbose
+logging by setting `window.GM_DEBUG = true` in the page's developer console.
+
 ## Packaging
 1. Ensure that all extension files are present and any build steps have been run.
 2. Compress the entire extension folder into a `.zip` archive. This is the package that will be uploaded.
