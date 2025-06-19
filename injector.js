@@ -11,9 +11,23 @@
 
     if (emailBody && typeof marked?.parse === 'function') {
       clearInterval(interval);
-      const markdown = emailBody.innerText;
-      const html = marked.parse(markdown);
-      emailBody.innerHTML = html;
+
+      const selection = window.getSelection();
+      const range = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+
+      if (range && emailBody.contains(range.commonAncestorContainer)) {
+        const selectedText = selection.toString();
+        if (selectedText.trim()) {
+          const tempContainer = document.createElement('div');
+          tempContainer.innerHTML = marked.parse(selectedText);
+          range.deleteContents();
+          range.insertNode(tempContainer);
+        }
+      } else {
+        const markdown = emailBody.innerText;
+        const html = marked.parse(markdown);
+        emailBody.innerHTML = html;
+      }
     } else {
       attempts++;
       if (attempts > MAX_ATTEMPTS) {
