@@ -26,8 +26,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === "convert_markdown") {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      injectMarkdownTools(tabs[0].id);
+    chrome.storage.sync.get({ disableDefault: false }, ({ disableDefault }) => {
+      if (disableDefault) return;
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        injectMarkdownTools(tabs[0].id);
+      });
     });
   }
 });
