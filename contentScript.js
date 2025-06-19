@@ -30,6 +30,10 @@
     return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
   }
 
+  function convertLinksToReadable(text) {
+    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)');
+  }
+
   function applyTheme(theme) {
     const id = 'md-theme-style';
     let link = document.getElementById(id);
@@ -175,7 +179,8 @@
       const markedOpts = { gfm: opts.gfm, sanitize: opts.sanitize };
 
       if (markdownText !== undefined) {
-        const html = marked.parse(replaceEmojis(markdownText), markedOpts);
+        const converted = convertLinksToReadable(markdownText);
+        const html = marked.parse(replaceEmojis(converted), markedOpts);
         if (document.queryCommandSupported && document.queryCommandSupported('insertHTML')) {
           document.execCommand('insertHTML', false, html);
         } else if (range) {
@@ -190,11 +195,13 @@
 
       if (range && emailBody.contains(range.commonAncestorContainer) && selection.toString().trim()) {
         const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = marked.parse(replaceEmojis(selection.toString()), markedOpts);
+        const converted = convertLinksToReadable(selection.toString());
+        tempContainer.innerHTML = marked.parse(replaceEmojis(converted), markedOpts);
         range.deleteContents();
         range.insertNode(tempContainer);
       } else {
-        const html = marked.parse(replaceEmojis(emailBody.innerText), markedOpts);
+        const converted = convertLinksToReadable(emailBody.innerText);
+        const html = marked.parse(replaceEmojis(converted), markedOpts);
         emailBody.innerHTML = html;
       }
       emailBody.dispatchEvent(new Event('input', { bubbles: true }));
