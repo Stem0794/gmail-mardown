@@ -1,5 +1,5 @@
 (function(){
-  console.log('[Markdown4Gmail] html2md.js loaded');
+  'use strict';
   const MAX_ATTEMPTS = 50;
   let attempts = 0;
 
@@ -18,6 +18,7 @@
         const md = td.turndown(div.innerHTML);
         range.deleteContents();
         range.insertNode(document.createTextNode(md));
+        range.collapse(false);
       }else{
         const md = td.turndown(emailBody.innerHTML);
         emailBody.innerText = md;
