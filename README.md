@@ -2,7 +2,19 @@
 
 This extension allows you to write emails in Markdown when composing a message in Gmail. Convert the Markdown to rich text via the provided context menu item or with the keyboard shortcut `Ctrl+Shift+M`.
 
+
 An options page allows you to configure automatic conversion on paste, parser settings, emoji support, and a custom keyboard shortcut. The shortcut string recognizes `ctrl`, `shift`, `alt`, and `cmd`/`meta` tokens so macOS users can specify combinations like `cmd+shift+m`. When you save a new shortcut it is applied to the extension's command automatically, so there is no need to update it through the **Extension shortcuts** page.
+
+## Features
+- Write emails in pure Markdown directly in Gmail.
+- Convert Markdown to rich text from the context menu or by pressing `Ctrl+Shift+M`.
+- Convert existing HTML back to Markdown with `Ctrl+Shift+H`.
+- Automatically convert text on paste or when sending the message.
+- Supports GitHub‑flavored Markdown and optional HTML sanitization.
+- Extensive emoji shortcode map with characters left intact when typed directly.
+- Slash commands `/note` and `/table` expand to useful templates.
+- Choose between *clean*, *Notion-style*, or *email-friendly* themes.
+- Configure a custom keyboard shortcut or disable the default one.
 
 ## Installation
 1. Clone this repository.
@@ -10,7 +22,7 @@ An options page allows you to configure automatic conversion on paste, parser se
 3. Enable **Developer mode**.
 4. Click **Load unpacked** and choose this folder.
 
-## Usage
+## How to Use
 - Compose a new email in Gmail and write it using Markdown syntax.
 - Right-click inside the editable area and choose **Convert Markdown to Rich Text**, or press `Ctrl+Shift+M`.
 - Use **Convert HTML to Markdown** from the context menu (or `Ctrl+Shift+H`) to reverse the conversion in Gmail.
