@@ -36,7 +36,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["marked.min.js", "turndown.js"],
+      "resources": ["marked.min.js", "turndown.js", "themes.css"],
       "matches": ["https://mail.google.com/*", "https://*.slack.com/*"]
     }
   ]
