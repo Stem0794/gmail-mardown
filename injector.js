@@ -16,6 +16,7 @@ return function(){return{parse:r}}}());
       const markdown = emailBody.innerText;
       const html = marked.parse(markdown);
       emailBody.innerHTML = html;
+      emailBody.dispatchEvent(new Event('input', { bubbles: true }));
     } else {
       attempts++;
       if (attempts > MAX_ATTEMPTS) {
@@ -25,3 +26,4 @@ return function(){return{parse:r}}}());
     }
   }, 300);
 })();
+
