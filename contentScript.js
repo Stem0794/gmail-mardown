@@ -54,17 +54,26 @@
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
         const range = sel.getRangeAt(0);
-        if (!body.contains(range.startContainer) || range.startContainer.nodeType !== Node.TEXT_NODE) return;
-        const text = range.startContainer.textContent;
-        const idx = range.startOffset;
+        if (!body.contains(range.startContainer)) return;
+        let container = range.startContainer;
+        let idx = range.startOffset;
+        if (container.nodeType !== Node.TEXT_NODE) {
+          if (container.lastChild && container.lastChild.nodeType === Node.TEXT_NODE) {
+            container = container.lastChild;
+            idx = container.textContent.length;
+          } else {
+            return;
+          }
+        }
+        const text = container.textContent;
         if (text.slice(idx - 5, idx) === '/note') {
-          range.startContainer.textContent = text.slice(0, idx - 5) + '> ';
-          sel.collapse(range.startContainer, idx - 3);
+          container.textContent = text.slice(0, idx - 5) + '> ';
+          sel.collapse(container, idx - 3);
           e.preventDefault();
         } else if (text.slice(idx - 6, idx) === '/table') {
           const tmpl = '| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |';
-          range.startContainer.textContent = text.slice(0, idx - 6) + tmpl;
-          sel.collapse(range.startContainer, idx - 6 + tmpl.length);
+          container.textContent = text.slice(0, idx - 6) + tmpl;
+          sel.collapse(container, idx - 6 + tmpl.length);
           e.preventDefault();
         }
       });
