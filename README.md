@@ -16,6 +16,7 @@ An options page allows you to configure automatic conversion on paste, parser se
 - Use **Convert HTML to Markdown** from the context menu (or `Ctrl+Shift+H`) to reverse the conversion in Gmail.
 - The extension converts the Markdown to rich text within the compose area and can convert existing HTML back to Markdown when requested.
 - Emoji shortcodes like `:smile:` are automatically converted to their corresponding characters.
+- Links written as `[text](url)` become plain `text (url)` links for readability.
 - Choose between *clean*, *Notion-style*, or *email-friendly* themes for rendered Markdown.
 - Typing `/note` or `/table` expands to a blockquote or table template.
 
