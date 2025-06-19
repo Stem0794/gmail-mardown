@@ -19,6 +19,11 @@
       },
       "description": "Convert Markdown in email to rich text"
     }
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["marked.min.js"],
+      "matches": ["https://mail.google.com/*"]
+    }
+  ]
 }
-

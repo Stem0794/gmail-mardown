@@ -9,7 +9,12 @@ chrome.runtime.onInstalled.addListener(() => {
 function injectMarkdownTools(tabId) {
   chrome.scripting.executeScript({
     target: { tabId },
-    files: ['injector.js']
+    files: ['marked.min.js']
+  }, () => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['injector.js']
+    });
   });
 }
 
@@ -26,4 +31,3 @@ chrome.commands.onCommand.addListener((command) => {
     });
   }
 });
-
