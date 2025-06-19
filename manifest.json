@@ -26,11 +26,17 @@
         "default": "Ctrl+Shift+M"
       },
       "description": "Convert Markdown in email to rich text"
+    },
+    "convert_html_markdown": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H"
+      },
+      "description": "Convert HTML in email to Markdown"
     }
   },
   "web_accessible_resources": [
     {
-      "resources": ["marked.min.js"],
+      "resources": ["marked.min.js", "turndown.js"],
       "matches": ["https://mail.google.com/*"]
     }
   ]
