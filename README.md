@@ -2,6 +2,8 @@
 
 This extension allows you to write emails in Markdown when composing a message in Gmail. Convert the Markdown to rich text via the provided context menu item or with the keyboard shortcut `Ctrl+Shift+M`.
 
+An options page allows you to configure automatic conversion on send, parser settings, and a custom keyboard shortcut.
+
 ## Installation
 1. Clone this repository.
 2. Open Chrome and navigate to `chrome://extensions`.
