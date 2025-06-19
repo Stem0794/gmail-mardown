@@ -9,3 +9,10 @@
 .md-theme-email h1,
 .md-theme-email h2 { margin: 0.8em 0; font-size: 1em; font-weight: bold; }
 .md-theme-email blockquote { margin: 0.8em 0; padding-left: 8px; border-left: 4px solid #ccc; color: #000; }
+
+.md-callout {
+  background: #f2f2f2;
+  padding: 8px;
+  border-left: 4px solid #ccc;
+  border-radius: 4px;
+}

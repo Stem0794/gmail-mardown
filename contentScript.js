@@ -64,13 +64,28 @@
         }
         const text = container.textContent;
         if (text.slice(idx - 5, idx) === '/note') {
-          container.textContent = text.slice(0, idx - 5) + '> ';
-          sel.collapse(container, idx - 3);
-          e.preventDefault();
-        } else if (text.slice(idx - 6, idx) === '/table') {
-          const tmpl = '| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |';
-          container.textContent = text.slice(0, idx - 6) + tmpl;
-          sel.collapse(container, idx - 6 + tmpl.length);
+          container.textContent = text.slice(0, idx - 5);
+          sel.collapse(container, idx - 5);
+          const html =
+            '<div class="md-callout" contenteditable="true" ' +
+            'style="background:#f2f2f2;padding:8px;border-radius:4px;">' +
+            'Important info</div>';
+          if (
+            document.queryCommandSupported &&
+            document.queryCommandSupported('insertHTML')
+          ) {
+            document.execCommand('insertHTML', false, html);
+          } else {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            const node = temp.firstChild;
+            const r = sel.getRangeAt(0);
+            r.insertNode(node);
+            r.setStart(node, 0);
+            r.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(r);
+          }
           e.preventDefault();
         }
       });
