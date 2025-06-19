@@ -4,7 +4,7 @@
   const MAX_ATTEMPTS = 50;
   let attempts = 0;
 
-  const EMOJI_MAP = {
+  const EMOJI_MAP = typeof window !== 'undefined' && window.EMOJI_MAP ? window.EMOJI_MAP : {
     smile: '😄',
     grin: '😁',
     wink: '😉',
@@ -18,6 +18,9 @@
   };
 
   function replaceEmojis(text) {
+    if (typeof window !== 'undefined' && window.replaceEmojis) {
+      return window.replaceEmojis(text);
+    }
     return text.replace(/:([a-zA-Z0-9_+-]+):/g, (m, p1) => EMOJI_MAP[p1] || m);
   }
 
