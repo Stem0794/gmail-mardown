@@ -35,10 +35,12 @@
     const ctrl = parts.includes('ctrl');
     const shift = parts.includes('shift');
     const alt = parts.includes('alt');
+    const meta = parts.includes('meta') || parts.includes('cmd');
     return e.key.toLowerCase() === key &&
            e.ctrlKey === ctrl &&
            e.shiftKey === shift &&
-           e.altKey === alt;
+           e.altKey === alt &&
+           e.metaKey === meta;
   }
 
   function observePaste(callback) {
