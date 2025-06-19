@@ -8,14 +8,8 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://mail.google.com/*"],
-      "js": ["marked.min.js"]
-    }
-  ],
   "action": {
-    "default_icon": "icons/icon48.png",
+    "default_icon": "icons/icon.png",
     "default_title": "Markdown for Gmail"
   },
   "commands": {

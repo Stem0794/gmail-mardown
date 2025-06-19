@@ -6,22 +6,23 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+function injectMarkdownTools(tabId) {
+  chrome.scripting.executeScript({
+    target: { tabId },
+    files: ['injector.js']
+  });
+}
+
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "convert-md") {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ['injector.js']
-    });
+    injectMarkdownTools(tab.id);
   }
 });
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === "convert_markdown") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        files: ['injector.js']
-      });
+      injectMarkdownTools(tabs[0].id);
     });
   }
 });
